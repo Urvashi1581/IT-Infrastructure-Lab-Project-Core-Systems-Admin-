@@ -11,34 +11,6 @@ Recover from mistakes/malware: Daily backups and a tested file-level restore wit
 Topology
 
 
-flowchart LR
-  Internet[(VMnet8 NAT / Internet)]
-
-  subgraph HQ["HQ LAN — 10.10.0.0/24"]
-    PF1["pfSense-HQ\nLAN: 10.10.0.1"]
-    DC1["DC1 — AD DS/DNS/DHCP\n10.10.0.10"]
-    FS1["FS1 — File Server + Windows Server Backup\n10.10.0.20"]
-    WSUS["WSUS (optional)\n10.10.0.30"]
-    CL1["CL1 (HQ client)\n10.10.0.x"]
-  end
-
-  subgraph BR1["Branch1 LAN — 10.20.0.0/24"]
-    PF2["pfSense-BR1\nLAN: 10.20.0.1"]
-    DC2["DC2-RODC — Read-Only DC/DNS\n10.20.0.10"]
-    CL2["CL2 (Branch client)\n10.20.0.x"]
-  end
-
-  Internet --- PF1
-  Internet --- PF2
-  PF1 == "OpenVPN SSL/TLS (tls-crypt)\nTunnel: 10.200.0.0/24" ==> PF2
-
-  %% helpful traffic hints
-  CL1 --> DC1
-  FS1 --> DC1
-  DC2 --> DC1
-  CL2 --> DC2
-
-
 
 Domains: cccu.local (primary) and acme.local (tiny “acquired” forest used for the migration demo).
 Sites: HQ (10.10.0.0/24), BRANCH1 (10.20.0.0/24).
