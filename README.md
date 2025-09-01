@@ -19,6 +19,7 @@ Sites: HQ (10.10.0.0/24), BRANCH1 (10.20.0.0/24).
 
 
 What I built (step-by-step)
+
 0) Prereqs & Lab Networks
 
 VMware Workstation networks:
