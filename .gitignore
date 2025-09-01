@@ -1,0 +1,28 @@
+# OS & editor
+.DS_Store
+Thumbs.db
+*.code-workspace
+.vscode/
+.idea/
+
+# Archives & binaries
+*.zip
+*.7z
+*.rar
+*.iso
+*.img
+
+# VM artifacts (never commit VMDK/VMX)
+*.vmdk
+*.vmem
+*.vmx
+*.nvram
+*.log
+
+# Secrets (keep configs redacted)
+secrets/
+*.key
+*.crt
+*.pem
+*.p12
+*.ovpn
