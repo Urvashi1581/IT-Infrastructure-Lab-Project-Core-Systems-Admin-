@@ -10,6 +10,7 @@ Recover from mistakes/malware: Daily backups and a tested file-level restore wit
 
 Topology
 
+![WhatsApp Image 2025-09-01 at 18 05 43_50402205](https://github.com/user-attachments/assets/46ae1009-8d80-49dd-9b4c-ad4b7d3fad1c)
 
 
 Domains: cccu.local (primary) and acme.local (tiny “acquired” forest used for the migration demo).
