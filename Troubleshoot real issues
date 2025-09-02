@@ -1,3 +1,5 @@
+Key troubleshooting (real issues & fixes)
+
 OpenVPN client stuck “waiting for response from peer”.
 Root cause: Mode mismatch (tls-auth on client vs tls-crypt on server) and missing HQ WAN rule.
 Fix: Set tls-crypt on both ends, paste the same TLS key, allow UDP/1194 to WAN address, uncheck “Block private networks,” verify server IP didn’t change on NAT.
