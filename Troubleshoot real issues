@@ -1,0 +1,33 @@
+OpenVPN client stuck “waiting for response from peer”.
+Root cause: Mode mismatch (tls-auth on client vs tls-crypt on server) and missing HQ WAN rule.
+Fix: Set tls-crypt on both ends, paste the same TLS key, allow UDP/1194 to WAN address, uncheck “Block private networks,” verify server IP didn’t change on NAT.
+
+Branch → HQ ping failed (HQ → Branch worked).
+Root cause: No route on BR1 to HQ LAN; pings sourcing from the wrong interface.
+Fix: Push 10.10.0.0/24 from server (IPv4 Local Networks) or add IPv4 Remote Networks on client; run tests with Source = LAN/OpenVPN; add OpenVPN Pass any→any and explicit ICMP to “This firewall” rule on HQ.
+
+Users couldn’t log on at branch during simulated outage.
+Root cause: RODC PRP didn’t allow those users/computers; DNS still pointing at HQ.
+Fix: Allow branch groups in Password Replication Policy and pre-populate caches; set branch clients’ DNS to the RODC (with HQ as secondary).
+
+Clients mapped to wrong site / slow logons.
+Root cause: Missing Subnets in AD Sites & Services.
+Fix: Added 10.20.0.0/24 → BRANCH1; validated with nltest /dsgetsite.
+
+DHCP relay not working over VPN.
+Root cause: Relay not pointing to DC1 or traffic blocked.
+Fix: Services → DHCP Relay on pfSense-BR1 (Interface: LAN, Destination: DC1), confirm OpenVPN rules; or host DHCP on the RODC.
+
+Restore succeeded but permissions looked odd.
+Root cause: ACL inheritance after restore.
+Fix: Restored to alternate path, then robocopy /COPYALL back to production; confirmed access with least-privilege groups.
+
+
+
+
+Why it mattered
+
+Resilience: Branch stayed productive when the link was down (RODC cached approved passwords).
+Security: Read-only DC at the edge, scoped Password Replication Policy, and strict inter-site rules.
+Speed: Simple, repeatable migration steps for small acquisitions; minimal user disruption.
+Recoverability: Tested, documented restore path with clear RPO/RTO.
