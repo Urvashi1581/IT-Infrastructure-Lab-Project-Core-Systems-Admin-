@@ -13,7 +13,7 @@ Topology
 ![WhatsApp Image 2025-09-01 at 18 05 43_50402205](https://github.com/user-attachments/assets/46ae1009-8d80-49dd-9b4c-ad4b7d3fad1c)
 
 
-Domains: cccu.local (primary) and acme.local (tiny “acquired” forest used for the migration demo).
+Domains: home.local (primary) and corp.local (tiny “acquired” forest used for the migration demo).
 Sites: HQ (10.10.0.0/24), BRANCH1 (10.20.0.0/24).
 
 
@@ -38,7 +38,7 @@ Test: Ping BR1 from HQ and vice-versa; confirm LAN-to-LAN connectivity.
 
 Promoted DC1 to new forest cccu.local; DNS running locally.
 Created DHCP scope 10.10.0.100–200 (GW 10.10.0.1, DNS 10.10.0.10).
-Designed base OU tree (_Corp\Users, _Corp\Computers, _HQ, _BRANCH1, Finance, IT) and created sample groups/users.
+Designed base OU tree (_home\Users, _home\Computers, _HQ, _BRANCH1, Finance, IT) and created sample groups/users.
 
 3) File Services (FS1)
 
@@ -52,7 +52,7 @@ Test: Finance user can read/write; non-Finance user denied.
 Default Domain Policy: length ≥ 12, lockout after 5 attempts.
 Base-Workstation-Security GPO: firewall on, disable SMBv1, disable guest.
 USB-Block (Finance OU): deny removable storage.
-Map-Drives-Finance: map H: → \\FS1\Dept_Finance.
+Map-Drives-Finance: map U: → \\FS1\Dept_Finance.
 BitLocker-Laptops: allow w/out TPM for demo; escrow keys to AD (optional).
 Validate: gpupdate /force, gpresult /r on clients.
 
@@ -84,8 +84,8 @@ Wrote 4–6 short KBs: mail flow fix (Autodiscover/DNS), share access (group mem
 
 9) Light M&A (staged migration)
 
-Built small acme.local forest (ACME-DC1 + ACME-CL1).
-Exported ACME users → transformed CSV → imported to cccu.local with PowerShell (New-ADUser).
+Built small corp.local forest (corp-DC1 + ACME-CL1).
+Exported corp users → transformed CSV → imported to home.local with PowerShell (New-ADUser).
 Computer migration (simulated): disjoined ACME-CL1 from acme.local → joined to cccu.local (netdom or GUI).
 GPOs auto-delivered software, drive maps, and baselines.
 Re-ACL data with icacls: granted new CCCU groups; removed legacy ACME SIDs (documented).
